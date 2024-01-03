@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PB Application Form</title>
+  <style>
+    body {
+      background-color: white;
+      font-family: 'Arial', sans-serif;
+    }
+
+    .form-container {
+      max-width: 600px;
+      margin: auto;
+      padding: 20px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 8px;
+    }
+
+    input[type="text"] {
+      width: 100%;
+      padding: 8px;
+      margin-bottom: 16px;
+    }
+
+    select {
+      width: 100%;
+      padding: 8px;
+      margin-bottom: 16px;
+    }
+
+    button {
+      background-color: #000;
+      color: white;
+      padding: 10px 15px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+
+    .success-message {
+      color: green;
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="form-container">
+    <label for="question1">What is your Real Discord user?</label>
+    <input type="text" id="question1" placeholder="Please tell your real user">
+
+    <label for="question2">What role do you want?</label>
+    <select id="question2">
+      <option value="N/A">N/A</option>
+      <option value="Staff">Staff</option>
+      <option value="Dev">Dev</option>
+      <option value="Helper">Helper</option>
+    </select>
+
+    <label for="question3">Why do you want this role?</label>
+    <input type="text" id="question3Text" placeholder="a reason why you want this role">
+
+    <label for="question4">How often are you active?</label>
+    <select id="question4">
+      <option value="N/A">N/A</option>
+      <option value="Very active">Very active</option>
+      <option value="Mostly active">Mostly active</option>
+      <option value="Moderately active">Moderately active</option>
+      <option value="Barely active">Barely active</option>
+    </select>
+
+    <label for="question5">What is your skill?</label>
+    <h3>Ex: What will you do if someone spams?</h3>
+    <input type="text" id="question5" placeholder="Tell us what you will do if someone spams">
+
+    <button onclick="submitForm()">Submit</button>
+    
+    <p class="success-message" id="successMessage"></p>
+  </div>
+
+  <script>
+    function submitForm() {
+      var answer1 = document.getElementById("question1").value;
+      var answer2 = document.getElementById("question2").value;
+      var answer3 = document.getElementById("question3Text").value;
+      var answer4 = document.getElementById("question4").value;
+      var answer5 = document.getElementById("question5").value;
+
+      var data = {
+        content: `Answers:\nUsername: ${answer1}\nRole: ${answer2}\nReason: ${answer3}\nActive: ${answer4}\nSkills: ${answer5}`
+      };
+
+      var webhookUrl = 'https://discord.com/api/webhooks/1191255587774812190/H9UfzMOHfKxegl0G8LEcru29AbRAeliYDRlkTvNkOe9PPxsqbq9zhlggVWCYAdHRw_ul';
+
+      fetch(webhookUrl, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+      })
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        document.getElementById("successMessage").textContent = 'Your form has been submitted.';
+        console.log('Form submitted successfully');
+      })
+      .catch(error => {
+        console.error('Error:', error);
+      });
+
+     
+      document.getElementById("submitBtn").disabled = true;
+    }
+  </script>
+
+</body>
+</html>
